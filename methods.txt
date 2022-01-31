@@ -1,0 +1,28 @@
+ /******************************************* Update **************************************************/
+
+ public function updateShippingMethods(SettingRequest $req, $id)
+    {
+
+        try {
+            $shippingMethod = Setting::find($id);
+            if ($shippingMethod) {
+                DB::beginTransaction();
+                $shippingMethod->update(
+                    [
+                        'value' => $req->value,
+                        'plain_value' => $req->plain_value
+                    ]
+                );
+                $shippingMethod->save();
+                DB::commit();
+                return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
+            } else
+                return redirect()->back()->with(['errors' => 'خطأ']);
+        } catch (\Exception $ex) {
+            return redirect()->back()->with(['errors' => 'ex خطأ']);
+            DB::rollback();
+        }
+    }
+
+
+    /*****************************************************************************************************/
