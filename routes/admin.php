@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     //********************************************* Index  ******************************************************/
     Route::get('/', 'dashboardController@index')->name('dashboard.index');
     //********************************************* End Index  **************************************************/
+    //********************************************* Settings  ***************************************************/
+    Route::group(['prefix'=>'settings'],function(){
+        
+    });
+    //********************************************* End Settings  ***********************************************/
 });
 
 
