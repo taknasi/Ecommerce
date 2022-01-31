@@ -102,9 +102,9 @@
             <li class=" nav-item"><a href="#"><i class="la la-television"></i><span class="menu-title"
                                                                                     data-i18n="nav.templates.main">الإعدادات</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="#" data-i18n="nav.templates.vert.main">توصيل مجاني</a></li>
-                    <li><a class="menu-item" href="#" data-i18n="nav.templates.vert.main">توصيل داخلي</a></li>
-                    <li><a class="menu-item" href="#" data-i18n="nav.templates.vert.main">توصيل خارجي</a></li>
+                    <li><a class="menu-item" href="{{ route('edit.shiping.methods','free')}}" data-i18n="nav.templates.vert.main">توصيل مجاني</a></li>
+                    <li><a class="menu-item" href="{{ route('edit.shiping.methods','inner')}}" data-i18n="nav.templates.vert.main">توصيل داخلي</a></li>
+                    <li><a class="menu-item" href="{{ route('edit.shiping.methods','outer')}}" data-i18n="nav.templates.vert.main">توصيل خارجي</a></li>
                     
                 </ul>
             </li>
