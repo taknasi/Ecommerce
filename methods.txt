@@ -25,4 +25,30 @@
     }
 
 
-    /*****************************************************************************************************/
+    /********************************************** update 2 *************************************************/
+
+    public function update(ProfileRequest $request, $id)
+    {
+        try {
+            $admin = Admin::find($id)->first();
+            if ($admin) {
+                DB::beginTransaction();
+
+                unset($request['id']); // kat7ayad had filied man request
+                unset($request['password_confirmation']);
+
+                if ($request->filled('password')) {
+                    $request->merge(['password' => bcrypt($request->password)]);
+                } else {
+                    unset($request['password']);
+                }
+                $admin->update($request->all());
+
+                DB::commit();
+                return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
+            }
+            return redirect()->back()->with(['error' => 'خطأ']);
+        } catch (\Exception $ex) {
+            return redirect()->back()->with(['error' => $ex->getMessage()]);
+        }
+    }

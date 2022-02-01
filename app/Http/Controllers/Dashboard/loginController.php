@@ -24,4 +24,11 @@ class loginController extends Controller
         }
         return redirect()->back()->with(['error' => 'هناك خطأ في البيانات']);
     }
+
+    public function logout()
+    {
+        $guard = auth('admin');
+        $guard->logout();
+        return redirect()->route('admin.login');
+    }
 }
