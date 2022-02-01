@@ -26,12 +26,23 @@ Route::group(
             Route::get('/', 'dashboardController@index')->name('dashboard.index');
             //********************************************* End Index  **************************************************/
 
+            //********************************************* Logout  *****************************************************/
+            Route::get('/logout', 'loginController@logout')->name('admin.logout');
+            //********************************************* End Logout  *************************************************/
+
             //********************************************* Settings  ***************************************************/
             Route::group(['prefix' => 'settings'], function () {
                 Route::get('/shipping-methods/{type}', 'settingController@editShippingMethods')->name('edit.shiping.methods');
                 Route::post('/shipping-methods/{id}', 'settingController@updateShippingMethods')->name('update.shiping.methods');
             });
             //********************************************* End Settings  ***********************************************/
+
+            //********************************************* Admin profile  **********************************************/
+            Route::group(['prefix' => 'Profile'], function () {
+                Route::get('/edit', 'ProfileController@edit')->name('edit.profile');
+                Route::post('/update/{id}', 'ProfileController@update')->name('update.profile');
+            });
+            //********************************************* End Admin profile *******************************************/
         });
 
 
@@ -42,6 +53,7 @@ Route::group(
             //********************************************* Login  ******************************************************/
             Route::get('/login', 'loginController@login')->name('admin.login');
             Route::post('/login', 'loginController@postLogin')->name('admin.post.login');
+
             //********************************************* End Login  **************************************************/
         });
     }
