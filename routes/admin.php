@@ -43,6 +43,17 @@ Route::group(
                 Route::post('/update/{id}', 'ProfileController@update')->name('update.profile');
             });
             //********************************************* End Admin profile *******************************************/
+
+            //********************************************* Categories **************************************************/
+            Route::group(['prefix'=>'MainCategory'],function(){
+                Route::get('/index','MainCategoryController@index')->name('MainCategory.index');
+                Route::get('/create','MainCategoryController@create')->name('MainCategory.create');
+                Route::post('/create','MainCategoryController@store')->name('MainCategory.store');
+                Route::get('/edit/{id}','MainCategoryController@edit')->name('MainCategory.edit');
+                Route::put('/update/{id}','MainCategoryController@update')->name('MainCategory.update');
+                Route::delete('/delete/{id}','MainCategoryController@destroy')->name('MainCategory.destroy');
+            });
+            //********************************************* End Categories **********************************************/
         });
 
         /*============================================================================================================= */
