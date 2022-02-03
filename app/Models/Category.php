@@ -14,7 +14,7 @@ class Category extends Model
     protected $casts = ['is_active' => 'boolean'];
     protected $translatedAttributes = ['name'];
 
-    protected $hidden = ['translations'];
+    // protected $hidden = ['translations'];
 
     public function scopeParente($query)
     {

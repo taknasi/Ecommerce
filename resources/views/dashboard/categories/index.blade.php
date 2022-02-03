@@ -60,22 +60,19 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $category->name }}</td>
-                                                        <td>{{ $category->_parent->name ?? '--'}}</td>
+                                                        <td>{{ $category->_parent->name ?? '--' }}</td>
                                                         <td>{{ $category->slug }}</td>
-                                                        <td>{{ $category->isActive($category->is_active)}}</td>
+                                                        <td>{{ $category->isActive($category->is_active) }}</td>
                                                         <td> <img style="width: 150px; height: 100px;" src=" "></td>
                                                         <td>
                                                             <div class="btn-group" role="group"
                                                                 aria-label="Basic example">
-                                                                <a href="{{ route('MainCategory.edit',$category->id) }}"
+                                                                <a href="{{ route('MainCategory.edit', $category->id) }}"
                                                                     class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
 
-                                                                <a href=""
+                                                                <a href="{{ route('MainCategory.destroy', $category->id) }}"
                                                                     class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
-
-
-
                                                             </div>
                                                         </td>
                                                     </tr>

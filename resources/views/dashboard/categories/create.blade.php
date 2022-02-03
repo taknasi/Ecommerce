@@ -13,7 +13,7 @@
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('MainCategory.index') }}"> الاقسام الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item active"> تعديل - {{ $category->name }}
+                                <li class="breadcrumb-item active"> إضافة قسم رئيسي
                                 </li>
                             </ol>
                         </div>
@@ -27,7 +27,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> تعديل قسم رئيسي </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> إضافة قسم رئيسي </h4>
                                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
@@ -43,12 +43,9 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <form class="form"
-                                            action="{{ route('MainCategory.update', $category->id) }}" method="POST"
+                                            action="{{route('MainCategory.store')}}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
-                                            @method('PUT')
-
-                                            <input name="id" value="{{ $category->id }}" type="hidden">
 
                                             <div class="form-group">
                                                 <div class="text-center">
@@ -77,7 +74,7 @@
                                                             <label for="projectinput1"> اسم القسم
                                                             </label>
                                                             <input type="text" id="name" class="form-control"
-                                                                placeholder="  " value="{{ $category->name }}"
+                                                                placeholder="  " value="{{ old('name') }}"
                                                                 name="name">
                                                             @error('name')
                                                                 <span class="text-danger">{{ $message }}</span>
@@ -92,7 +89,7 @@
                                                             <label for="projectinput1"> اسم بالرابط
                                                             </label>
                                                             <input type="text" id="name" class="form-control"
-                                                                placeholder="  " value="{{ $category->slug }}"
+                                                                placeholder="  " value="{{ old('slug') }}"
                                                                 name="slug">
 
                                                             @error('slug')
@@ -112,7 +109,7 @@
                                                         <div class="form-group mt-1">
                                                             <input type="checkbox" value="1" name="is_active"
                                                                 id="switcheryColor4" class="switchery"
-                                                                @if ($category->is_active == 1) checked @endif data-color="success" />
+                                                                data-color="success" />
                                                             <label for="switcheryColor4" class="card-title ml-1">الحالة
                                                             </label>
 
@@ -131,7 +128,7 @@
                                                     <i class="ft-x"></i> تراجع
                                                 </button>
                                                 <button type="submit" class="btn btn-primary">
-                                                    <i class="la la-check-square-o"></i> تحديث
+                                                    <i class="la la-check-square-o"></i> اضافة
                                                 </button>
                                             </div>
                                         </form>

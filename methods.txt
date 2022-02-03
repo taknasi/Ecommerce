@@ -1,3 +1,27 @@
+ /************************************************* Store ********************************************/
+
+ public function store(CategoryRequest $request)
+    {
+        try {
+            if ($request->has('is_active'))
+                $request->request->add(['is_active' => 1]);
+            else
+                $request->request->add(['is_active' => 0]);
+
+            DB::beginTransaction();
+            $category = Category::create(
+                $request->all()
+            );
+            $category->name = $request->name;
+            $category->save();
+            DB::commit();
+            return redirect()->route('MainCategory.index')->with(['success' => 'تم الاضافة بنجاح']);
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('MainCategory.index')->with(['errors' => 'خطأ']);
+        }
+    }
+
  /******************************************* Update **************************************************/
 
  public function updateShippingMethods(SettingRequest $req, $id)
@@ -13,7 +37,6 @@
                         'plain_value' => $req->plain_value
                     ]
                 );
-                $shippingMethod->save();
                 DB::commit();
                 return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
             } else
@@ -50,5 +73,28 @@
             return redirect()->back()->with(['error' => 'خطأ']);
         } catch (\Exception $ex) {
             return redirect()->back()->with(['error' => $ex->getMessage()]);
+        }
+    }
+
+
+    /************************************************ Delete **************************************************/
+
+    public function destroy($id)
+    {
+        try {
+            $category=Category::find($id);
+        if ($category){
+            DB::beginTransaction();
+            $category->translations()->delete();
+            $category->delete();
+            DB::commit();
+            return redirect()->route('MainCategory.index')->with(['success' => 'تم الحذف بنجاح']);
+        }else {
+            return redirect()->route('MainCategory.index')->with(['errors' => 'خطأ']);
+        }
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return redirect()->route('MainCategory.index')->with(['errors' => 'خطأ']);
+
         }
     }

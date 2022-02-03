@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Unique;
 
 class CategoryRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,9 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'slug' => 'required|unique:categories,slug,'.$this->id,
+            
         ];
     }
 }

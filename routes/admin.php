@@ -51,7 +51,7 @@ Route::group(
                 Route::post('/create','MainCategoryController@store')->name('MainCategory.store');
                 Route::get('/edit/{id}','MainCategoryController@edit')->name('MainCategory.edit');
                 Route::put('/update/{id}','MainCategoryController@update')->name('MainCategory.update');
-                Route::delete('/delete/{id}','MainCategoryController@destroy')->name('MainCategory.destroy');
+                Route::get('/delete/{id}','MainCategoryController@destroy')->name('MainCategory.destroy');
             });
             //********************************************* End Categories **********************************************/
         });
