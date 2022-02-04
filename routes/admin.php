@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -54,6 +55,17 @@ Route::group(
                 Route::get('/delete/{id}','MainCategoryController@destroy')->name('MainCategory.destroy');
             });
             //********************************************* End Categories **********************************************/
+
+            //*********************************************** Sub Categories ****************************************** */
+            Route::group(['prefix'=>'cubcategory'],function(){
+                Route::get('/index','SubCategoryController@index')->name('subCategory.index');
+                Route::get('/create','SubCategoryController@create')->name('subCategory.create');
+                Route::post('/store','SubCategoryController@store')->name('subCategory.store');
+                Route::get('/edit/{id}','SubCategoryController@edit')->name('subCategory.edit');
+                Route::put('/update/{id}','SubCategoryController@update')->name('subCategory.update');
+                Route::get('/delete/{id}','SubCategoryController@destroy')->name('subCategory.destroy');
+            });
+            //*********************************************** End Sub Categories ************************************** */
         });
 
         /*============================================================================================================= */
@@ -67,3 +79,9 @@ Route::group(
         });
     }
 );
+
+
+Route::get('test',function(){
+    $v=Category::inRandomOrder()->pluck('id')->first();
+    return $v;
+});
