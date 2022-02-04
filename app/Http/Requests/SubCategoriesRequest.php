@@ -26,7 +26,7 @@ class SubCategoriesRequest extends FormRequest
         return [
             'name'=>'required',
             'slug' =>'required|unique:categories,slug,'.$this->id,
-            'parent_id' =>'required'
+            'parent_id' =>'required|exists:categories,id'
         ];
     }
 
