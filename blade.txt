@@ -1,0 +1,63 @@
+/************************************************* Fill select *****************************************/
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="projectinput1"> اسم القسم الرئيسي
+                </label>
+
+                <select class="select2 form-control" name="parent_id">
+
+                    <option value="" selected disabled>-- من فضلك أختر القسم --
+                    </option>
+
+                    @if ($mainCategories)
+                        @foreach ($mainCategories as $mainCategory)
+                            <option value="{{ $mainCategory->id }}">
+                                {{ $mainCategory->name }}</option>
+                        @endforeach
+                    @endif
+
+                </select>
+                @error('parent_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+/*********************************** edit select *************************************************************/
+
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="projectinput1"> اسم القسم الرئيسي
+                </label>
+
+                <select class="select2 form-control" name="parent_id">
+
+                    <option value="" selected disabled>-- من فضلك أختر القسم --
+                    </option>
+
+                    @if ($mainCat)
+                        @foreach ($mainCat as $mainCategory)
+                            <option value="{{ $mainCategory->id }}" @if ($mainCategory->id==$subCat->parent_id) selected @endif>
+                                {{ $mainCategory->name }}</option>
+                        @endforeach
+                    @endif
+
+                </select>
+                @error('parent_id')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+/*********************************** button delete  (route DELETE) ************************************************/
+
+    <form action="{{ route('brands.destroy', $brand->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit"  class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</button>
+    </form>

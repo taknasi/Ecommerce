@@ -11,9 +11,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{ route('subCategory.index') }}"> الاقسام الفرعية </a>
+                                <li class="breadcrumb-item"><a href="{{ route('brands.index') }}"> العلامات التجارية
+                                    </a>
                                 </li>
-                                <li class="breadcrumb-item active"> تعديل - {{ $subCat->name }}
+                                <li class="breadcrumb-item active"> إضافة علامة تجارية
                                 </li>
                             </ol>
                         </div>
@@ -27,7 +28,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> تعديل قسم فرعي </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> إضافة علامة تجارية </h4>
                                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
@@ -42,23 +43,19 @@
                                 @include('dashboard.includes.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form"
-                                            action="{{ route('subCategory.update', $subCat->id) }}" method="POST"
-                                            enctype="multipart/form-data">
+                                        <form class="form" action="{{ route('brands.store') }}"
+                                            method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            @method('PUT')
-
-                                            <input name="id" value="{{ $subCat->id }}" type="hidden">
 
                                             <div class="form-group">
                                                 <div class="text-center">
-                                                    <img src="" class="rounded-circle  height-150" alt="صورة القسم  ">
+                                                    <img src="" class="rounded-circle  height-150" alt="صورة   ">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group">
-                                                <label> صوره القسم </label>
+                                                <label> صوره العلامة التجارية </label>
                                                 <label id="projectinput7" class="file center-block">
                                                     <input type="file" id="file" name="photo">
                                                     <span class="file-custom"></span>
@@ -70,42 +67,17 @@
 
                                             <div class="form-body">
 
-                                                <h4 class="form-section"><i class="ft-home"></i> بيانات القسم </h4>
+                                                <h4 class="form-section"><i class="ft-home"></i> بيانات العلامة التجارية </h4>
 
-                                                <div class="row ">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1"> اسم القسم الرئيسي
-                                                            </label>
-
-                                                            <select class="select2 form-control" name="parent_id">
-
-                                                                <option value="" selected disabled>-- من فضلك أختر القسم --
-                                                                </option>
-
-                                                                @if ($mainCat)
-                                                                    @foreach ($mainCat as $mainCategory)
-                                                                        <option value="{{ $mainCategory->id }}" @if ($mainCategory->id==$subCat->parent_id) selected @endif>
-                                                                            {{ $mainCategory->name }}</option>
-                                                                    @endforeach
-                                                                @endif
-
-                                                            </select>
-                                                            @error('parent_id')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> اسم القسم
+                                                            <label for="projectinput1"> اسم العلامة التجارية
                                                             </label>
                                                             <input type="text" id="name" class="form-control"
-                                                                placeholder="  " value="{{ $subCat->name }}"
-                                                                name="name">
+                                                                placeholder="  " value="{{ old('name') }}" name="name">
                                                             @error('name')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -114,32 +86,13 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1"> اسم بالرابط
-                                                            </label>
-                                                            <input type="text" id="name" class="form-control"
-                                                                placeholder="  " value="{{ $subCat->slug }}"
-                                                                name="slug">
-
-                                                            @error('slug')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-
-                                                        </div>
-                                                    </div>
-
-
-
-
-
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
                                                             <input type="checkbox" value="1" name="is_active"
                                                                 id="switcheryColor4" class="switchery"
-                                                                @if ($subCat->is_active == 1) checked @endif data-color="success" />
+                                                                data-color="success" />
                                                             <label for="switcheryColor4" class="card-title ml-1">الحالة
                                                             </label>
 
@@ -158,7 +111,7 @@
                                                     <i class="ft-x"></i> تراجع
                                                 </button>
                                                 <button type="submit" class="btn btn-primary">
-                                                    <i class="la la-check-square-o"></i> تحديث
+                                                    <i class="la la-check-square-o"></i> اضافة
                                                 </button>
                                             </div>
                                         </form>

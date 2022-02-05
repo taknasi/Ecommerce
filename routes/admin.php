@@ -46,26 +46,30 @@ Route::group(
             //********************************************* End Admin profile *******************************************/
 
             //********************************************* Categories **************************************************/
-            Route::group(['prefix'=>'MainCategory'],function(){
-                Route::get('/index','MainCategoryController@index')->name('MainCategory.index');
-                Route::get('/create','MainCategoryController@create')->name('MainCategory.create');
-                Route::post('/create','MainCategoryController@store')->name('MainCategory.store');
-                Route::get('/edit/{id}','MainCategoryController@edit')->name('MainCategory.edit');
-                Route::put('/update/{id}','MainCategoryController@update')->name('MainCategory.update');
-                Route::get('/delete/{id}','MainCategoryController@destroy')->name('MainCategory.destroy');
+            Route::group(['prefix' => 'MainCategory'], function () {
+                Route::get('/index', 'MainCategoryController@index')->name('MainCategory.index');
+                Route::get('/create', 'MainCategoryController@create')->name('MainCategory.create');
+                Route::post('/create', 'MainCategoryController@store')->name('MainCategory.store');
+                Route::get('/edit/{id}', 'MainCategoryController@edit')->name('MainCategory.edit');
+                Route::put('/update/{id}', 'MainCategoryController@update')->name('MainCategory.update');
+                Route::get('/delete/{id}', 'MainCategoryController@destroy')->name('MainCategory.destroy');
             });
             //********************************************* End Categories **********************************************/
 
             //*********************************************** Sub Categories ****************************************** */
-            Route::group(['prefix'=>'cubcategory'],function(){
-                Route::get('/index','SubCategoryController@index')->name('subCategory.index');
-                Route::get('/create','SubCategoryController@create')->name('subCategory.create');
-                Route::post('/store','SubCategoryController@store')->name('subCategory.store');
-                Route::get('/edit/{id}','SubCategoryController@edit')->name('subCategory.edit');
-                Route::put('/update/{id}','SubCategoryController@update')->name('subCategory.update');
-                Route::get('/delete/{id}','SubCategoryController@destroy')->name('subCategory.destroy');
+            Route::group(['prefix' => 'subcategory'], function () {
+                Route::get('/index', 'SubCategoryController@index')->name('subCategory.index');
+                Route::get('/create', 'SubCategoryController@create')->name('subCategory.create');
+                Route::post('/store', 'SubCategoryController@store')->name('subCategory.store');
+                Route::get('/edit/{id}', 'SubCategoryController@edit')->name('subCategory.edit');
+                Route::put('/update/{id}', 'SubCategoryController@update')->name('subCategory.update');
+                Route::get('/delete/{id}', 'SubCategoryController@destroy')->name('subCategory.destroy');
             });
             //*********************************************** End Sub Categories ************************************** */
+
+            //*********************************************** Brands ************************************************** */
+            Route::resource('brands', 'BrandController');
+            //*********************************************** End Brands ********************************************** */
         });
 
         /*============================================================================================================= */
@@ -79,9 +83,3 @@ Route::group(
         });
     }
 );
-
-
-Route::get('test',function(){
-    $v=Category::inRandomOrder()->pluck('id')->first();
-    return $v;
-});

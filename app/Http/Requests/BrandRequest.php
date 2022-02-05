@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubCategoriesRequest extends FormRequest
+class BrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,7 @@ class SubCategoriesRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'slug' =>'required|unique:categories,slug,'.$this->id,
-            'parent_id' =>'required|exists:categories,id'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            
+            'photo' => 'mimes:png,jpg'
         ];
     }
 }
