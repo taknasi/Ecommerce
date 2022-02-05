@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BrandRequest;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -14,7 +16,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = Brand::orderBy('id', 'DESC')->paginate(pagination_count);
+        return view('dashboard.brands.index', compact('brands'));
     }
 
     /**
@@ -24,7 +27,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.brands.create');
     }
 
     /**
@@ -33,9 +36,24 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BrandRequest $request)
     {
-        //
+        $filePath = "";
+        if ($request->has('photo')) {
+            $filePath = uploadPhoto('brands', $request->photo);
+        }
+        if ($request->has('is_active'))
+            $request->request->add(['is_active' => 1]);
+        else
+            $request->request->add(['is_active' => 0]);
+
+        $brand = Brand::create([
+            'name' => $request->name,
+            'is_active' => $request->is_active,
+        ]);
+        $brand->photo = $filePath;
+        $brand->save();
+        return redirect()->route('brands.index')->with(['success' => 'تم الاضافة بنجاح']);
     }
 
     /**
@@ -57,7 +75,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand) {
+            return view('dashboard.brands.edit', compact('brand'));
+        }
+        return redirect()->route('brands.index')->with(['errors' => 'هذه الغلامة غير موجودة']);
     }
 
     /**
@@ -67,9 +89,28 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BrandRequest $request, $id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand) {
+            if ($request->has('is_active'))
+                $request->request->add(['is_active' => 1]);
+            else
+                $request->request->add(['is_active' => 0]);
+
+            $brand->update([
+                'name' => $request->name,
+                'is_active' => $request->is_active,
+            ]);
+            $filePath = "";
+            if ($request->has('photo')) {
+                $filePath = uploadPhoto('brands', $request->photo);
+                deletePhoto('brands', $brand->photo);
+                $brand->photo = $filePath;
+                $brand->save();
+            }
+            return redirect()->route('brands.index')->with(['success' => 'تم التعديل بنجاح']);
+        }
     }
 
     /**
@@ -80,6 +121,15 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand = Brand::find($id);
+        if ($brand) {
+            $brand->translations()->delete();
+            deletePhoto('brands', $brand->photo);
+            $brand->delete();
+            return redirect()->route('brands.index')->with(['success' => 'تم الحذف بنجاح']);
+        } else {
+            return redirect()->route('brands.index')->with(['errors' => 'خطأ']);
+        }
+       
     }
 }

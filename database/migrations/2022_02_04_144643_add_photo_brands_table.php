@@ -14,7 +14,7 @@ class AddPhotoBrandsTable extends Migration
     public function up()
     {
         Schema::table('brands', function (Blueprint $table) {
-            //
+            $table->string('photo')->nullable()->after('is_active');
         });
     }
 
@@ -26,7 +26,7 @@ class AddPhotoBrandsTable extends Migration
     public function down()
     {
         Schema::table('brands', function (Blueprint $table) {
-            //
+            $table->dropColumn('photo');
         });
     }
 }

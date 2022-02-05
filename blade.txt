@@ -53,3 +53,11 @@
             </div>
         </div>
     </div>
+
+/*********************************** button delete  (route DELETE) ************************************************/
+
+    <form action="{{ route('brands.destroy', $brand->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit"  class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</button>
+    </form>
