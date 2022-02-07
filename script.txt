@@ -1,0 +1,16 @@
+//**************************************** display select when you click on radio ***********************************************/
+// 3ti l select id=maincat and class hidden
+@section('script')
+
+    <script>
+        $('input:radio[name="type"]').change(
+            function() {
+                if (this.checked && this.value == '2') { // 1 if main cat - 2 if sub cat
+                    $('#maincat').removeClass('hidden');
+
+                } else {
+                    $('#maincat').addClass('hidden');
+                }
+            });
+    </script>
+@stop
