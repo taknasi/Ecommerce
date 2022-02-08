@@ -22,6 +22,34 @@
         }
     }
 
+
+    /************************************* store with relations ************************************/
+    
+      public function store(ProductRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($request->has('is_active'))
+                $request->request->add(['is_active' => 1]);
+            else
+                $request->request->add(['is_active' => 0]);
+            
+            $product=Product::create($request->only(['slug','is_active','brand_id']));
+            $product->name=$request->name;
+            $product->description=$request->description;
+            $product->short_description=$request->short_description;
+            $product->save();
+            $product->categories()->attach($request->categories);
+            $product->tags()->attach($request->tags);
+            DB::commit();
+            return \redirect()->route('products.index')->with(['success'=>'m3alem']);
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $ex;
+        }
+    }
+
  /******************************************* Update **************************************************/
 
  public function updateShippingMethods(SettingRequest $req, $id)
