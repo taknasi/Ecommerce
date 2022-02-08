@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -76,8 +77,16 @@ Route::group(
             //*********************************************** End Tags ********************************************** */
 
             //********************************************** Tree view Category ***************************************/
-            Route::resource('treecategory','TreeCategoryController',['only'=>['index','create','store']]);
+            Route::resource('treecategory', 'TreeCategoryController', ['only' => ['index', 'create', 'store']]);
             //********************************************** End Tree view Category ***********************************/
+
+            /****************************************************** Products ***************************************** */
+            Route::resource('products', 'ProductController');
+            Route::group(['prefix' => 'products'], function () {
+                Route::get('price/{id}', 'ProductController@getPrice')->name('products.price.create');
+                Route::post('price', 'ProductController@savePrice')->name('products.price.store');
+            });
+            /****************************************************** End Products ************************************** */
         });
 
         /*============================================================================================================= */
