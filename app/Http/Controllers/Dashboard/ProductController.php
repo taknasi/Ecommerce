@@ -8,6 +8,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductStockRequest;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -128,12 +129,43 @@ class ProductController extends Controller
 
     public function getStock($product_id)
     {
-        $product=Product::whereId($product_id)->select('sku','manage_stock','in_stock','qty')->first();
-        return view('dashboard.products.stock.create',compact('product'))->with('id', $product_id);
+        $product = Product::whereId($product_id)->select('sku', 'manage_stock', 'in_stock', 'qty')->first();
+        return view('dashboard.products.stock.create', compact('product'))->with('id', $product_id);
     }
 
-    public function saveStock(ProductStockRequest $request){
-        Product::whereId($request->product_id)->update($request->except(['_token','product_id']));
+    public function saveStock(ProductStockRequest $request)
+    {
+        Product::whereId($request->product_id)->update($request->except(['_token', 'product_id']));
         return \redirect()->route('products.index')->with(['success' => 'm3alem']);
+    }
+
+    public function addImages($product_id)
+    {
+        return view('dashboard.products.image.create')->withId($product_id);
+    }
+
+    public function saveImages(Request $request)
+    {
+        $file = $request->file('dzfile');
+        $fileName = uploadPhoto('products', $file);
+        return response()->json([
+            'name' => $fileName,
+            'original_name' => $file->getClientOriginalName()
+        ]);
+        return 0;
+    }
+
+    public function saveImagesDb(Request $request)
+    {
+        if ( count($request->document) > 0) {
+            foreach ($request->document as $image) {
+                Image::create([
+                    'product_id' => $request->product_id,
+                    'photo' => $image
+                ]);
+            }
+            return \redirect()->route('products.index')->with(['success' => 'm3alem']);
+        }
+        
     }
 }
