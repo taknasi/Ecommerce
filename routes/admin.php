@@ -82,9 +82,13 @@ Route::group(
 
             /****************************************************** Products ***************************************** */
             Route::resource('products', 'ProductController');
+            
             Route::group(['prefix' => 'products'], function () {
                 Route::get('price/{id}', 'ProductController@getPrice')->name('products.price.create');
                 Route::post('price', 'ProductController@savePrice')->name('products.price.store');
+
+                Route::get('stock/{id}','ProductController@getStock')->name('products.stock.create');
+                Route::post('stock','ProductController@saveStock')->name('products.stock.store');
             });
             /****************************************************** End Products ************************************** */
         });
