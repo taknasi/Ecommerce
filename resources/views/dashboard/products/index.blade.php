@@ -70,7 +70,7 @@
                                                                     <a href=""
                                                                         class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">الصور</a>
 
-                                                                    <a href=""
+                                                                    <a href="{{ route('products.stock.create',$product->id)}}"
                                                                         class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">المستودع</a>
                                                                 </div>
                                                             </td>

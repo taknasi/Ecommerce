@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductPriceRequest;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductStockRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -21,8 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=Product::orderBy('id','desc')->paginate(pagination_count);
-        return view('dashboard.products.index',compact('products'));
+        $products = Product::orderBy('id', 'desc')->paginate(pagination_count);
+        return view('dashboard.products.index', compact('products'));
     }
 
     /**
@@ -54,16 +55,16 @@ class ProductController extends Controller
                 $request->request->add(['is_active' => 1]);
             else
                 $request->request->add(['is_active' => 0]);
-            
-            $product=Product::create($request->only(['slug','is_active','brand_id']));
-            $product->name=$request->name;
-            $product->description=$request->description;
-            $product->short_description=$request->short_description;
+
+            $product = Product::create($request->only(['slug', 'is_active', 'brand_id']));
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->short_description = $request->short_description;
             $product->save();
             $product->categories()->attach($request->categories);
             $product->tags()->attach($request->tags);
             DB::commit();
-            return \redirect()->route('products.index')->with(['success'=>'m3alem']);
+            return \redirect()->route('products.index')->with(['success' => 'm3alem']);
         } catch (\Exception $ex) {
             DB::rollBack();
             return $ex;
@@ -115,11 +116,24 @@ class ProductController extends Controller
         //
     }
 
-    public function getPrice($product_id){
-        return view('dashboard.products.productPrices.create')->with('id',$product_id);
+    public function getPrice($product_id)
+    {
+        return view('dashboard.products.productPrices.create')->with('id', $product_id);
     }
-    public function savePrice(ProductPriceRequest $request){
-        $product=Product::whereId($request->product_id)->update($request->except(['_token','product_id']));
-        return \redirect()->route('products.index')->with(['success'=>'m3alem']);
+    public function savePrice(ProductPriceRequest $request)
+    {
+        $product = Product::whereId($request->product_id)->update($request->except(['_token', 'product_id']));
+        return \redirect()->route('products.index')->with(['success' => 'm3alem']);
+    }
+
+    public function getStock($product_id)
+    {
+        $product=Product::whereId($product_id)->select('sku','manage_stock','in_stock','qty')->first();
+        return view('dashboard.products.stock.create',compact('product'))->with('id', $product_id);
+    }
+
+    public function saveStock(ProductStockRequest $request){
+        Product::whereId($request->product_id)->update($request->except(['_token','product_id']));
+        return \redirect()->route('products.index')->with(['success' => 'm3alem']);
     }
 }
