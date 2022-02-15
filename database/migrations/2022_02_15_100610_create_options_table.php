@@ -14,7 +14,12 @@ class CreateOptionsTable extends Migration
     public function up()
     {
         Schema::create('options', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('attribute_id')->unsigned()->nullable();
+            $table->integer('product_id')->unsigned()->nullable();
+            $table->string('price')->nullable();
+            $table->foreign('attribute_id')->references('id')->on('attributes')->cascadeOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->timestamps();
         });
     }

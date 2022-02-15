@@ -13,4 +13,6 @@ class Attribute extends Model
 
     // protected $hidden = ['translations'];
 
+ 
+
 }

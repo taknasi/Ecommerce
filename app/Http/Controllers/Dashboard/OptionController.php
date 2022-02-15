@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\OptionRequest;
+use App\Models\Attribute;
 use App\Models\Option;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OptionController extends Controller
@@ -14,7 +18,8 @@ class OptionController extends Controller
      */
     public function index()
     {
-        //
+        $options=Option::with(['product','attribute'])->orderBy('id','desc')->paginate(pagination_count);
+        return view('dashboard.options.index',compact('options'));
     }
 
     /**
@@ -24,7 +29,10 @@ class OptionController extends Controller
      */
     public function create()
     {
-        //
+        $data=[];
+        $data['products']=Product::active()->select('id')->get();
+        $data['attributes']=Attribute::select('id')->get();
+        return view('dashboard.options.create',$data);
     }
 
     /**
@@ -33,9 +41,16 @@ class OptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OptionRequest $request)
     {
-        //
+        $option=Option::create([
+            'product_id'=>$request->product_id,
+            'attribute_id'=>$request->attribute_id,
+            'price'=>$request->price,
+        ]);
+        $option->name=$request->name;
+        $option->save();
+        return redirect()->route('options.index')->with(['success' => 'تم الاضافة بنجاح']);
     }
 
     /**
