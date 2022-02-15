@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/site',function(){
+//     return view('front.home');
+// });
 Route::get('/site',function(){
-    return view('front.home');
+    return view('welcome');
 });
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    ],
+    function () {
+
+        Route::group(['namespace'=>'Site','prefix'=>'front','middleware'=>'auth:web'],function(){
+
+        });
+
+
+        Route::group(['namespace'=>'Site','prefix'=>'front','middleware'=>'guest:web'],function(){
+
+        });
+
+    }
+);
+
 
